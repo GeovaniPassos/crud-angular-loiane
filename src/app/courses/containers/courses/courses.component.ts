@@ -1,6 +1,6 @@
-import { CoursesService } from './../services/courses.service';
+import { CoursesService } from '../../services/courses.service';
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../model/course';
+import { Course } from '../../model/course';
 import { Observable, of } from 'rxjs';
 import { tap, take, first, delay, catchError} from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 export class CoursesComponent implements OnInit {
 
   courses$: Observable<Course[]>;
-  
+
 
   //coursesService: CoursesService;
 
@@ -53,7 +53,7 @@ export class CoursesComponent implements OnInit {
   }
 
   onAdd() {
-    this.router.navigate(['new'], {relativeTo: this.route})
+    this.router.navigate(['new'], { relativeTo: this.route })
   }
 
   ngOnInit(): void {
