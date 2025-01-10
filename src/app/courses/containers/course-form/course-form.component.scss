@@ -1,7 +1,4 @@
-.mat-toolbar {
-  margin-bottom: 20px;
-}
-.mat-card {
+mat-card {
   max-width: 80%;
   margin: 2em auto;
   text-align: center;
@@ -14,4 +11,8 @@
 .min-width {
   width: 100%;
   min-width: 150px;
+}
+
+.action-center {
+  justify-content: center;
 }
