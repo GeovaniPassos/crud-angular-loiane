@@ -1,5 +1,4 @@
 <mat-card>
-
   <mat-toolbar color="primary">Detalhes do curso</mat-toolbar>
 
   <mat-card-content class="min-width">
@@ -10,7 +9,6 @@
         <mat-error *ngIf="form.get('name')?.invalid">{{
         getErrorMessage('name')
         }}</mat-error>
-
       </mat-form-field>
 
       <mat-form-field class="full-width">
@@ -24,10 +22,39 @@
           }}</mat-error>
       </mat-form-field>
 
-      <mat-card-actions class="action-center">
-        <button mat-raised-button color="primary" (click)="onSubmit()">SALVAR</button>
-        <button mat-raised-button color="warn" (click)="onCancel()">CANCELAR</button>
-      </mat-card-actions>
+      <mat-toolbar>
+          <span>Aulas</span>
+          <button mat-icon-button color="accent">
+            <mat-icon arial-label="Adicionar uma nova aula.">add</mat-icon>
+          </button>
+      </mat-toolbar>
+
+      <table
+        style="width: 100%"
+        formArrayName="lessons"
+        *ngFor="let lesson of getLessonsFormArray(); let i = index"
+      >
+        <tr [formGroupName]="i">
+          <td style="width: 65%">
+            <mat-form-field class="full-width">
+              <mat-label>Nome da aula</mat-label>
+              <input matInput formControlName="name"/>
+            </mat-form-field>
+          </td>
+          <td style="width: 30">
+            <mat-form-field class="full-width">
+              <mat-label>URL</mat-label>
+              <span matPrefix>https://youtu.be/ &nbsp;</span>
+              <input matInput formControlName="youtubeUrl"/>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
     </form>
   </mat-card-content>
+    <mat-card-actions class="action-center">
+      <button mat-raised-button color="primary" (click)="onSubmit()">SALVAR</button>
+      <button mat-raised-button color="warn" (click)="onCancel()">CANCELAR</button>
+    </mat-card-actions>
 </mat-card>
+//TODO: Conferir o HTML
