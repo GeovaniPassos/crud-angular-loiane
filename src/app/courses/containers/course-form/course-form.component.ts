@@ -1,6 +1,6 @@
 import { Lesson } from './../../model/lesson';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NonNullableFormBuilder, UntypedFormArray, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, UntypedFormArray, Validators } from '@angular/forms';
 import { CoursesService } from '../../services/courses.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
@@ -46,10 +46,8 @@ export class CourseFormComponent implements OnInit {
           Validators.minLength(5),
           Validators.maxLength(100)]],
       category: [course.category,[Validators.required]],
-      Lesson: this.formBuilder.array(this.retrieveLessons(course))
+      lessons: this.formBuilder.array(this.retrieveLessons(course), Validators.required)
     });
-    console.log(this.form);
-    console.log(this.form.value)
   }
 
   private retrieveLessons(course: Course) {
@@ -62,15 +60,17 @@ export class CourseFormComponent implements OnInit {
     return lessons;
   }
 
-  private createLesson(lesson: Lesson = {id: '', name: '', youtubeUrl: ''}) {
+  private createLesson(lesson: Lesson = {_id: '', name: '', youtubeUrl: ''}) {
     return this.formBuilder.group({
-      id: [lesson.id],
-      name: [lesson.name],
-      youtubeUrl: [lesson.youtubeUrl]
+      _id: [lesson._id],
+      name: [lesson.name, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]
+      ],
+      youtubeUrl: [lesson.youtubeUrl,   [Validators.required, Validators.minLength(10), Validators.maxLength(11)]
+      ]
     });
   }
 
-  getLessonsFormArray() {
+  getLessonFormArray() {
     return (<UntypedFormArray>this.form.get('lessons')).controls;
   }
 
