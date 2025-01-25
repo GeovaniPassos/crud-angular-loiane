@@ -65,7 +65,7 @@ export class CourseFormComponent implements OnInit {
       _id: [lesson._id],
       name: [lesson.name, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]
       ],
-      youtubeUrl: [lesson.youtubeUrl,   [Validators.required, Validators.minLength(10), Validators.maxLength(11)]
+      youtubeUrl: [lesson.youtubeUrl,   [Validators.required, Validators.minLength(10), Validators.maxLength(20)]
       ]
     });
   }
@@ -89,8 +89,13 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.save(this.form.value)
-    .subscribe(result => this.onSucces(), error => this.onError());
+    if (this.form.valid) {
+      this.service.save(this.form.value)
+        .subscribe(result => this.onSucces(), error => this.onError());
+    } else {
+      alert("Formulário está inválido!")
+    }
+
   }
 
   private onSucces() {
@@ -122,5 +127,10 @@ export class CourseFormComponent implements OnInit {
     }
 
     return 'Campo inválido!'
+  }
+
+  isFormArrayRequired() {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    return !lessons.valid && lessons.hasError('required') && lessons.touched;
   }
 }
