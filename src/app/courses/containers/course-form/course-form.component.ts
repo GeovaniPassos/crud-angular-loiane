@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Course } from '../../model/course';
+import { FormUtilsService } from 'src/app/shared/form/form-utils.service';
 
 @Component({
   selector: 'app-course-form',
@@ -29,8 +30,8 @@ export class CourseFormComponent implements OnInit {
     private service: CoursesService,
     private snackBar: MatSnackBar,
     private location: Location,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    public formUtils: FormUtilsService) {}
 
   ngOnInit(): void {
     const course: Course = this.route.snapshot.data['course'];
@@ -93,9 +94,8 @@ export class CourseFormComponent implements OnInit {
       this.service.save(this.form.value)
         .subscribe(result => this.onSucces(), error => this.onError());
     } else {
-      alert("Formulário está inválido!")
+      this.formUtils.validatedAllFormFilds(this.form);
     }
-
   }
 
   private onSucces() {
@@ -105,32 +105,5 @@ export class CourseFormComponent implements OnInit {
 
   private onError() {
     this.snackBar.open('Erro ao salvar o curso.', '',{ duration: 5000 });
-  }
-
-  getErrorMessage(fieldName: string) {
-    const field = this.form.get(fieldName)
-
-    if (field?.hasError('required')) {
-      return 'Campo obrigatório!';
-    }
-
-    if (field?.hasError('minlength')) {
-      const requiredLength: number = field.errors ? field.errors
-      ['minlength']['requiredLength'] : 5;
-      return `O tamanho mínimo precisa ser de ${requiredLength} caracteres!`;
-    }
-
-    if (field?.hasError('maxlength')) {
-      const requiredLength: number = field.errors ? field.errors
-      ['maxlength']['requiredLength'] : 100;
-      return `Tamanho máximo excedito de ${requiredLength} caracteres!`;
-    }
-
-    return 'Campo inválido!'
-  }
-
-  isFormArrayRequired() {
-    const lessons = this.form.get('lessons') as UntypedFormArray;
-    return !lessons.valid && lessons.hasError('required') && lessons.touched;
   }
 }
