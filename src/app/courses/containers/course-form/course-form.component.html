@@ -44,7 +44,7 @@
               <mat-label>Nome da aula</mat-label>
               <input matInput formControlName="name"/>
               <mat-error *ngIf="getLessonFormArray()[i].get('name')?.invalid">
-                {{ formUtils.getFormArrayFieldErrorMessage(form, 'lessons',     'name', i) }}
+                {{ formUtils.getFormArrayFieldErrorMessage(form, 'lessons','name', i) }}
               </mat-error>
             </mat-form-field>
           </td>
